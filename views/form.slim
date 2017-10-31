@@ -1,0 +1,25 @@
+html
+  head
+    title MDB to SQL Converter
+    script src="/dropzone.min.js"
+    link rel="stylesheet" href="/dropzone.min.css"
+  body
+    center
+      h1 Convert MDB (MS Access) Files to SQL Files
+      |Use the file uploader to select an MS Access file with the extension
+        .mdb and it will immediately be coverted to an sqlite compatible .sql
+        file.
+      form.dropzone#my-dropzone action="/upload" enctype="multipart/form-data" method="POST"
+        h3 Just drop a .mdb file here or click to select.
+      |To import the .sql file into sqlite you can do:
+      pre sqlite3 your_database.db < your_downloaded_file.sql
+  javascript:
+    Dropzone.options.myDropzone = {
+      init: function() {
+        this.on("success", function(file, serverResponse) {
+          location = serverResponse.export_db;
+        });
+      },
+      acceptedFiles: ".mdb"
+    };
+
